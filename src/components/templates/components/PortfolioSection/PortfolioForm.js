@@ -124,7 +124,7 @@ export default function PortfolioForm({ section, onInputChange }) {
           
           {(!section.projects || section.projects.length === 0) && (
             <div className="text-xs text-gray-500 text-center py-2">
-              No projects yet. Click "Add Project" to get started.
+              No projects yet. Click &quot;Add Project&quot; to get started.
             </div>
           )}
         </div>

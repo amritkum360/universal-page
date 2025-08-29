@@ -130,7 +130,7 @@ export default function SkillsForm({ section, onInputChange }) {
           
           {(!section.items || section.items.length === 0) && (
             <div className="text-xs text-gray-500 text-center py-4 border border-dashed border-gray-300 rounded-md">
-              No skills yet. Click "Add Skill" to get started.
+              No skills yet. Click &quot;Add Skill&quot; to get started.
             </div>
           )}
         </div>

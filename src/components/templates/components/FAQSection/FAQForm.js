@@ -102,7 +102,7 @@ export default function FAQForm({ section, onInputChange }) {
           
           {(!section.items || section.items.length === 0) && (
             <div className="text-xs text-gray-500 text-center py-4 border border-dashed border-gray-300 rounded-md">
-              No FAQ items yet. Click "Add FAQ" to get started.
+              No FAQ items yet. Click &quot;Add FAQ&quot; to get started.
             </div>
           )}
         </div>

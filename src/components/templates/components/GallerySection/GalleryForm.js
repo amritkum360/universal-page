@@ -133,7 +133,7 @@ export default function GalleryForm({ section, onInputChange }) {
           
           {(!section.images || section.images.length === 0) && (
             <div className="text-xs text-gray-500 text-center py-4 border border-dashed border-gray-300 rounded-md">
-              No images yet. Click "Add Image" to get started.
+              No images yet. Click &quot;Add Image&quot; to get started.
             </div>
           )}
         </div>

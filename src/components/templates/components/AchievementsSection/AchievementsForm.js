@@ -132,7 +132,7 @@ export default function AchievementsForm({ section, onInputChange }) {
           
           {(!section.items || section.items.length === 0) && (
             <div className="text-xs text-gray-500 text-center py-4 border border-dashed border-gray-300 rounded-md">
-              No achievements yet. Click "Add Achievement" to get started.
+              No achievements yet. Click &quot;Add Achievement&quot; to get started.
             </div>
           )}
         </div>

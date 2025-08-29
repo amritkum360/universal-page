@@ -23,7 +23,7 @@ export default function TestimonialsTemplate({ section }) {
                       <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                     ))}
                   </div>
-                  <p className="text-gray-700 mb-6 italic">"{testimonial.text}"</p>
+                  <p className="text-gray-700 mb-6 italic">&quot;{testimonial.text}&quot;</p>
                   <div className="flex items-center">
                     <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center mr-4">
                       <span className="text-white font-bold text-lg">{testimonial.name.charAt(0)}</span>

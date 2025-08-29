@@ -96,7 +96,7 @@ export default function AboutForm({ section, onInputChange }) {
           
           {(!section.features || section.features.length === 0) && (
             <div className="text-xs text-gray-500 text-center py-2">
-              No features yet. Click "Add Feature" to get started.
+              No features yet. Click &quot;Add Feature&quot; to get started.
             </div>
           )}
         </div>

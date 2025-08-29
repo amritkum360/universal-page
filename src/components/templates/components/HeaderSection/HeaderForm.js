@@ -154,7 +154,7 @@ export default function HeaderForm({ section, onInputChange }) {
           
           {(!section.navigation || section.navigation.length === 0) && (
             <div className="text-xs text-gray-500 text-center py-2">
-              No menu items yet. Click "Add Menu Item" to get started.
+              No menu items yet. Click &quot;Add Menu Item&quot; to get started.
             </div>
           )}
         </div>
@@ -215,7 +215,7 @@ export default function HeaderForm({ section, onInputChange }) {
           
           {(!section.ctaButtons || section.ctaButtons.length === 0) && (
             <div className="text-xs text-gray-500 text-center py-2">
-              No CTA buttons yet. Click "Add CTA Button" to get started.
+              No CTA buttons yet. Click &quot;Add CTA Button&quot; to get started.
             </div>
           )}
         </div>

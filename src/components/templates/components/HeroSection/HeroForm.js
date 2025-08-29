@@ -178,7 +178,7 @@ export default function HeroForm({ section, onInputChange }) {
           
           {(!section.ctaButtons || section.ctaButtons.length === 0) && (
             <div className="text-xs text-gray-500 text-center py-2">
-              No CTA buttons yet. Click "Add CTA Button" to get started.
+              No CTA buttons yet. Click &quot;Add CTA Button&quot; to get started.
             </div>
           )}
         </div>

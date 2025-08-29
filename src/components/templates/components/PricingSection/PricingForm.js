@@ -181,7 +181,7 @@ export default function PricingForm({ section, onInputChange }) {
                     
                     {(!plan.features || plan.features.length === 0) && (
                       <div className="text-xs text-gray-500 text-center py-2 border border-dashed border-gray-300 rounded">
-                        No features yet. Click "Add Feature" to get started.
+                        No features yet. Click &quot;Add Feature&quot; to get started.
                       </div>
                     )}
                   </div>
@@ -192,7 +192,7 @@ export default function PricingForm({ section, onInputChange }) {
           
           {(!section.plans || section.plans.length === 0) && (
             <div className="text-xs text-gray-500 text-center py-4 border border-dashed border-gray-300 rounded-md">
-              No pricing plans yet. Click "Add Plan" to get started.
+              No pricing plans yet. Click &quot;Add Plan&quot; to get started.
             </div>
           )}
         </div>
