@@ -1,0 +1,248 @@
+// Universal template data structure
+export const defaultUniversalData = {
+  // Basic Info
+  businessName: 'Your Business Name',
+  tagline: 'Your Tagline or Slogan',
+  logo: '',
+  favicon: '',
+  
+  // Header
+  header: {
+    visible: false,
+    logo: '',
+    navigation: [
+      { name: 'Home', link: '#home' },
+      { name: 'About', link: '#about' },
+      { name: 'Services', link: '#services' },
+      { name: 'Contact', link: '#contact' }
+    ],
+    ctaButtons: [
+      { text: 'Get Started', link: '#contact', primary: true }
+    ]
+  },
+
+  // Hero Section
+  hero: {
+    visible: false,
+    title: 'Welcome to Our Business',
+    subtitle: 'Professional Solutions for Your Needs',
+    description: 'We provide exceptional services with years of experience and dedication to customer satisfaction.',
+    backgroundImage: '',
+    ctaButtons: [
+      { text: 'Get Started', link: '#contact', primary: true },
+      { text: 'Learn More', link: '#about', primary: false }
+    ]
+  },
+
+  // About Me/Us
+  about: {
+    visible: false,
+    title: 'About Us',
+    subtitle: 'Your Trusted Partner',
+    description: 'We are dedicated to providing the best services to our customers with years of experience and expertise.',
+    image: '',
+    features: [
+      { title: 'Experience', description: '10+ Years in Industry' },
+      { title: 'Quality', description: 'Premium Service Quality' },
+      { title: 'Support', description: '24/7 Customer Support' }
+    ]
+  },
+
+  // Portfolio/Work/Projects
+  portfolio: {
+    visible: false,
+    title: 'Our Portfolio',
+    subtitle: 'Recent Work & Projects',
+    projects: [
+      { title: 'Project 1', description: 'Description of project 1', image: '', link: '' },
+      { title: 'Project 2', description: 'Description of project 2', image: '', link: '' },
+      { title: 'Project 3', description: 'Description of project 3', image: '', link: '' }
+    ]
+  },
+
+  // Products/Services
+  services: {
+    visible: false,
+    title: 'Our Services',
+    subtitle: 'What We Offer',
+    items: [
+      { title: 'Service 1', description: 'Description of service 1', icon: '🚀', price: '', image: '', buttonText: 'Get Started', buttonLink: '#contact', features: [] },
+      { title: 'Service 2', description: 'Description of service 2', icon: '💡', price: '', image: '', buttonText: 'Get Started', buttonLink: '#contact', features: [] },
+      { title: 'Service 3', description: 'Description of service 3', icon: '⚡', price: '', image: '', buttonText: 'Get Started', buttonLink: '#contact', features: [] }
+    ]
+  },
+
+  // Testimonials/Reviews
+  testimonials: {
+    visible: false,
+    title: 'What Our Clients Say',
+    subtitle: 'Customer Reviews',
+    items: [
+      { name: 'John Doe', role: 'CEO', company: 'Company 1', text: 'Excellent service and great results!', rating: 5, image: '' },
+      { name: 'Jane Smith', role: 'Manager', company: 'Company 2', text: 'Highly recommended for quality work.', rating: 5, image: '' },
+      { name: 'Mike Johnson', role: 'Director', company: 'Company 3', text: 'Professional team with outstanding results.', rating: 5, image: '' }
+    ]
+  },
+
+  // Skills/Expertise
+  skills: {
+    visible: false,
+    title: 'Our Expertise',
+    subtitle: 'Skills & Capabilities',
+    items: [
+      { name: 'Skill 1', percentage: 90, color: 'blue' },
+      { name: 'Skill 2', percentage: 85, color: 'green' },
+      { name: 'Skill 3', percentage: 80, color: 'purple' },
+      { name: 'Skill 4', percentage: 95, color: 'orange' }
+    ]
+  },
+
+  // Achievements/Awards
+  achievements: {
+    visible: false,
+    title: 'Achievements & Awards',
+    subtitle: 'Recognition & Milestones',
+    items: [
+      { title: 'Award 1', description: 'Description of award 1', year: '2023', icon: '🏆' },
+      { title: 'Award 2', description: 'Description of award 2', year: '2022', icon: '⭐' },
+      { title: 'Award 3', description: 'Description of award 3', year: '2021', icon: '🎖️' }
+    ]
+  },
+
+  // Gallery/Media
+  gallery: {
+    visible: false,
+    title: 'Gallery',
+    subtitle: 'Our Work & Photos',
+    images: [
+      { src: '', alt: 'Gallery Image 1', title: 'Image 1' },
+      { src: '', alt: 'Gallery Image 2', title: 'Image 2' },
+      { src: '', alt: 'Gallery Image 3', title: 'Image 3' },
+      { src: '', alt: 'Gallery Image 4', title: 'Image 4' }
+    ]
+  },
+
+  // Stats/Numbers
+  stats: {
+    visible: false,
+    title: 'Our Numbers',
+    subtitle: 'Key Statistics',
+    items: [
+      { number: '500+', label: 'Happy Clients', icon: '😊' },
+      { number: '1000+', label: 'Projects Completed', icon: '📊' },
+      { number: '50+', label: 'Team Members', icon: '👥' },
+      { number: '10+', label: 'Years Experience', icon: '⏰' }
+    ]
+  },
+
+  // Blog/Articles
+  blog: {
+    visible: false,
+    title: 'Latest Articles',
+    subtitle: 'News & Updates',
+    posts: [
+      { title: 'Article 1', excerpt: 'Brief description of article 1', date: '2024-01-15', image: '', link: '' },
+      { title: 'Article 2', excerpt: 'Brief description of article 2', date: '2024-01-10', image: '', link: '' },
+      { title: 'Article 3', excerpt: 'Brief description of article 3', date: '2024-01-05', image: '', link: '' }
+    ]
+  },
+
+  // Downloadables
+  downloadables: {
+    visible: false,
+    title: 'Resources',
+    subtitle: 'Free Downloads',
+    items: [
+      { title: 'Brochure', description: 'Company brochure in PDF', file: '', type: 'pdf' },
+      { title: 'Catalog', description: 'Product catalog', file: '', type: 'pdf' },
+      { title: 'Guide', description: 'User guide', file: '', type: 'pdf' }
+    ]
+  },
+
+  // FAQ
+  faq: {
+    visible: false,
+    title: 'Frequently Asked Questions',
+    subtitle: 'Common Questions',
+    items: [
+      { question: 'What services do you offer?', answer: 'We offer a wide range of services including...' },
+      { question: 'How can I contact you?', answer: 'You can contact us through phone, email, or our contact form.' },
+      { question: 'What are your business hours?', answer: 'We are open Monday to Friday, 9 AM to 6 PM.' }
+    ]
+  },
+
+  // Pricing/Packages
+  pricing: {
+    visible: false,
+    title: 'Pricing Plans',
+    subtitle: 'Choose Your Plan',
+    plans: [
+      { name: 'Basic', price: '$99', period: 'month', features: ['Feature 1', 'Feature 2', 'Feature 3'], popular: false },
+      { name: 'Professional', price: '$199', period: 'month', features: ['All Basic features', 'Feature 4', 'Feature 5'], popular: true },
+      { name: 'Enterprise', price: '$299', period: 'month', features: ['All Professional features', 'Feature 6', 'Feature 7'], popular: false }
+    ]
+  },
+
+  // Call to Action Banner
+  cta: {
+    visible: false,
+    title: 'Ready to Get Started?',
+    subtitle: 'Contact us today for a free consultation',
+    buttonText: 'Get Started Now',
+    buttonLink: '#contact',
+    backgroundImage: ''
+  },
+
+  // Social Media
+  social: {
+    visible: false,
+    title: 'Follow Us',
+    subtitle: 'Stay Connected',
+    platforms: [
+      { name: 'Facebook', url: 'https://facebook.com/your-page', icon: 'facebook' },
+      { name: 'Instagram', url: 'https://instagram.com/your-profile', icon: 'instagram' },
+      { name: 'Twitter', url: 'https://twitter.com/your-handle', icon: 'twitter' },
+      { name: 'LinkedIn', url: 'https://linkedin.com/company/your-company', icon: 'linkedin' }
+    ]
+  },
+
+  // Contact
+  contact: {
+    visible: false,
+    title: 'Contact Us',
+    subtitle: 'Get In Touch',
+    address: 'Your Business Address',
+    phone: '+1 234 567 8900',
+    email: 'info@yourbusiness.com',
+    hours: 'Monday - Friday: 9:00 AM - 6:00 PM',
+    form: {
+      name: true,
+      email: true,
+      phone: true,
+      message: true,
+      subject: false
+    }
+  },
+
+  // Footer
+  footer: {
+    visible: false,
+    copyright: '© 2024 Your Business Name. All rights reserved.',
+    links: [
+      { name: 'Privacy Policy', url: '/privacy' },
+      { name: 'Terms of Service', url: '/terms' },
+      { name: 'Cookie Policy', url: '/cookies' }
+    ]
+  },
+
+  // Theme & Styling
+  theme: {
+    primaryColor: '#3B82F6',
+    secondaryColor: '#8B5CF6',
+    accentColor: '#F59E0B',
+    backgroundColor: '#FFFFFF',
+    textColor: '#1F2937',
+    fontFamily: 'Inter',
+    borderRadius: '8px'
+  }
+};
