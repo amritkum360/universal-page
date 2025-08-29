@@ -17,7 +17,7 @@ export default function DesignSelector({ sectionType, onDesignSelect, onClose })
         return (
           <div className="text-center py-12">
             <div className="text-gray-500 text-lg mb-4">
-              No designs available for "{sectionType}" section type
+              No designs available for  section type
             </div>
             <button
               onClick={onClose}

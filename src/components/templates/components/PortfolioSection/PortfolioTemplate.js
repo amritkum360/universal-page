@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
 
 export default function PortfolioTemplate({ section }) {
@@ -19,7 +20,7 @@ export default function PortfolioTemplate({ section }) {
                 <div key={index} className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                   {project.image ? (
                     <div className="h-48 overflow-hidden">
-                      <img
+                      <Image
                         src={project.image}
                         alt={project.title || 'Project image'}
                         className="w-full h-full object-cover"

@@ -352,7 +352,7 @@ export default function SectionEditor({
 
         {elements.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
-            No custom elements added yet. Click "Add Element" to get started.
+            No custom elements added yet. Click Add Element to get started.
           </div>
         ) : (
           <div className="space-y-3">

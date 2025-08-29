@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React, { useRef } from 'react';
 
 export default function HeroForm({ section, onInputChange }) {
@@ -105,7 +106,7 @@ export default function HeroForm({ section, onInputChange }) {
             <div className="mt-2">
               <label className="block text-xs text-gray-600 mb-1">Preview:</label>
               <div className="w-full h-24 border border-gray-300 rounded-md overflow-hidden">
-                <img 
+                <Image
                   src={section.backgroundImage} 
                   alt="Background preview" 
                   className="w-full h-full object-cover"

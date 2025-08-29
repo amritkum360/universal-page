@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
 
 export default function ServicesTemplate({ section }) {
@@ -26,7 +27,7 @@ export default function ServicesTemplate({ section }) {
                      {service.image ? (
                        <div className="mb-6">
                          <div className="w-full h-48 rounded-2xl overflow-hidden">
-                           <img
+                           <Image
                              src={service.image}
                              alt={service.title || 'Product image'}
                              className="w-full h-full object-cover"

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
 
 export default function GalleryTemplate({ section }) {
@@ -19,7 +20,7 @@ export default function GalleryTemplate({ section }) {
                  <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                    {image.image ? (
                      <div className="h-48 overflow-hidden">
-                       <img
+                       <Image
                          src={image.image}
                          alt={image.title || 'Gallery image'}
                          className="w-full h-full object-cover"

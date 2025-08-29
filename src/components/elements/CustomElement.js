@@ -1,5 +1,7 @@
 'use client';
 
+import Image from "next/image";
+
 export default function CustomElement({ 
   sectionId, 
   element, 
@@ -38,7 +40,7 @@ export default function CustomElement({
       );
     case 'image':
       return (
-        <img
+        <Image
           src={element.content}
           alt="Element"
           style={elementStyle}

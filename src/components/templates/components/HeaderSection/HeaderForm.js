@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React, { useRef } from 'react';
 
 export default function HeaderForm({ section, onInputChange }) {
@@ -92,7 +93,7 @@ export default function HeaderForm({ section, onInputChange }) {
             <div className="mt-2">
               <label className="block text-xs text-gray-600 mb-1">Preview:</label>
               <div className="w-16 h-16 border border-gray-300 rounded-md overflow-hidden">
-                <img 
+                <Image
                   src={section.logo} 
                   alt="Logo preview" 
                   className="w-full h-full object-contain"
