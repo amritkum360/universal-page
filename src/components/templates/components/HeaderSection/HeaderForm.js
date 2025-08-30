@@ -96,6 +96,8 @@ export default function HeaderForm({ section, onInputChange }) {
                 <Image
                   src={section.logo} 
                   alt="Logo preview" 
+                  width={64}
+                  height={64}
                   className="w-full h-full object-contain"
                   onError={(e) => {
                     e.target.style.display = 'none';

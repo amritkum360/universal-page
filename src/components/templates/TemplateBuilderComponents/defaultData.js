@@ -24,10 +24,12 @@ export const defaultUniversalData = {
   // Hero Section
   hero: {
     visible: false,
+    template: 1,
     title: 'Welcome to Our Business',
     subtitle: 'Professional Solutions for Your Needs',
     description: 'We provide exceptional services with years of experience and dedication to customer satisfaction.',
     backgroundImage: '',
+    imageBorderRadius: 50,
     ctaButtons: [
       { text: 'Get Started', link: '#contact', primary: true },
       { text: 'Learn More', link: '#about', primary: false }
@@ -196,13 +198,20 @@ export const defaultUniversalData = {
   // Social Media
   social: {
     visible: false,
+    sticky: false,
     title: 'Follow Us',
     subtitle: 'Stay Connected',
     platforms: [
-      { name: 'Facebook', url: 'https://facebook.com/your-page', icon: 'facebook' },
-      { name: 'Instagram', url: 'https://instagram.com/your-profile', icon: 'instagram' },
-      { name: 'Twitter', url: 'https://twitter.com/your-handle', icon: 'twitter' },
-      { name: 'LinkedIn', url: 'https://linkedin.com/company/your-company', icon: 'linkedin' }
+      { name: 'Facebook', url: 'https://facebook.com/your-page', icon: 'facebook', enabled: false },
+      { name: 'Instagram', url: 'https://instagram.com/your-profile', icon: 'instagram', enabled: false },
+      { name: 'Twitter', url: 'https://twitter.com/your-handle', icon: 'twitter', enabled: false },
+      { name: 'LinkedIn', url: 'https://linkedin.com/company/your-company', icon: 'linkedin', enabled: false },
+      { name: 'YouTube', url: 'https://youtube.com/your-channel', icon: 'youtube', enabled: false },
+      { name: 'WhatsApp', url: 'https://wa.me/1234567890', icon: 'whatsapp', enabled: false },
+      { name: 'TikTok', url: 'https://tiktok.com/@your-username', icon: 'tiktok', enabled: false },
+      { name: 'Telegram', url: 'https://t.me/your-username', icon: 'telegram', enabled: false },
+      { name: 'Discord', url: 'https://discord.gg/your-server', icon: 'discord', enabled: false },
+      { name: 'Snapchat', url: 'your-snapchat-username', icon: 'snapchat', enabled: false }
     ]
   },
 
@@ -213,6 +222,7 @@ export const defaultUniversalData = {
     subtitle: 'Get In Touch',
     address: 'Your Business Address',
     phone: '+1 234 567 8900',
+    whatsapp: '+1 234 567 8900',
     email: 'info@yourbusiness.com',
     hours: 'Monday - Friday: 9:00 AM - 6:00 PM',
     form: {
@@ -228,6 +238,10 @@ export const defaultUniversalData = {
   footer: {
     visible: false,
     copyright: '© 2024 Your Business Name. All rights reserved.',
+    description: 'We are dedicated to providing exceptional services and creating meaningful connections with our customers.',
+    backgroundColor: 'dark',
+    contactTitle: 'Contact Info',
+    contactDescription: 'Get in touch with us for any questions or inquiries. We\'re here to help you succeed.',
     links: [
       { name: 'Privacy Policy', url: '/privacy' },
       { name: 'Terms of Service', url: '/terms' },
@@ -237,6 +251,7 @@ export const defaultUniversalData = {
 
   // Theme & Styling
   theme: {
+    selectedTheme: 'default',
     primaryColor: '#3B82F6',
     secondaryColor: '#8B5CF6',
     accentColor: '#F59E0B',

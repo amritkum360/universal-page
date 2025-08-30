@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Disclosure } from '@headlessui/react';
-import { ChevronDownIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, EyeIcon, EyeSlashIcon, ChevronUpIcon, ChevronDownIcon as ChevronDownIconSolid } from '@heroicons/react/24/outline';
 
 // Import section-specific form components
 import HeaderForm from './components/HeaderSection/HeaderForm';
@@ -23,8 +23,10 @@ import CTAForm from './components/CTASection/CTAForm';
 import ContactForm from './components/ContactSection/ContactForm';
 import SocialForm from './components/SocialSection/SocialForm';
 import FooterForm from './components/FooterSection/FooterForm';
+import ThemeForm from './components/ThemeSection/ThemeForm';
 
-export default function UniversalForm({ data = {}, onInputChange, onToggleSection }) {
+export default function UniversalForm({ data = {}, sectionOrder = [], onInputChange, onToggleSection, moveSectionUp, moveSectionDown }) {
+  const [openSection, setOpenSection] = React.useState('basic-info');
   const sections = [
     { key: 'header', name: 'Header', color: 'blue' },
     { key: 'hero', name: 'Hero Section', color: 'purple' },
@@ -42,8 +44,9 @@ export default function UniversalForm({ data = {}, onInputChange, onToggleSectio
     { key: 'pricing', name: 'Pricing / Packages', color: 'rose' },
     { key: 'cta', name: 'Call to Action Banner', color: 'lime' },
     { key: 'social', name: 'Social Media', color: 'sky' },
-    { key: 'contact', name: 'Contact', color: 'slate' },
-    { key: 'footer', name: 'Footer', color: 'gray' }
+    { key: 'contact', name: 'Contact', color: 'emerald' },
+    { key: 'footer', name: 'Footer', color: 'indigo' },
+    { key: 'theme', name: 'Theme', color: 'slate' }
   ];
 
   const getColorClasses = (color) => {
@@ -111,6 +114,8 @@ export default function UniversalForm({ data = {}, onInputChange, onToggleSectio
         return <SocialForm section={section} onInputChange={onInputChange} />;
       case 'footer':
         return <FooterForm section={section} onInputChange={onInputChange} />;
+      case 'theme':
+        return <ThemeForm section={section} onInputChange={onInputChange} />;
       default:
         return (
           <div className="space-y-3">
@@ -152,80 +157,137 @@ export default function UniversalForm({ data = {}, onInputChange, onToggleSectio
   return (
     <div className="space-y-3">
       {/* Basic Info Section */}
-      <Disclosure defaultOpen>
-        {({ open }) => (
-          <div>
-            <Disclosure.Button className={`flex w-full justify-between rounded-lg px-3 py-2 text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 ${getColorClasses('blue')}`}>
-              <span>Basic Info</span>
-              <ChevronDownIcon
-                className={`${
-                  open ? 'transform rotate-180' : ''
-                } w-4 h-4 text-blue-500`}
-              />
-            </Disclosure.Button>
-            <Disclosure.Panel className="px-3 pb-3 pt-2 text-sm text-gray-500">
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Business Name</label>
-                  <input
-                    type="text"
-                    value={data.businessName || ''}
-                    onChange={(e) => onInputChange('businessName', '', e.target.value)}
-                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    placeholder="Your Business Name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Tagline</label>
-                  <input
-                    type="text"
-                    value={data.tagline || ''}
-                    onChange={(e) => onInputChange('tagline', '', e.target.value)}
-                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    placeholder="Your Tagline or Slogan"
-                  />
-                </div>
+      <div>
+        <button
+          onClick={() => setOpenSection(openSection === 'basic-info' ? null : 'basic-info')}
+          className={`flex w-full justify-between rounded-lg px-3 py-2 text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 ${getColorClasses('blue')}`}
+        >
+          <span>Basic Info</span>
+          <ChevronDownIcon
+            className={`${
+              openSection === 'basic-info' ? 'transform rotate-180' : ''
+            } w-4 h-4 text-blue-500 transition-transform duration-200`}
+          />
+        </button>
+        {openSection === 'basic-info' && (
+          <div className="px-3 pb-3 pt-2 text-sm text-gray-500">
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Business Name</label>
+                <input
+                  type="text"
+                  value={data.businessName || ''}
+                  onChange={(e) => onInputChange('businessName', '', e.target.value)}
+                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  placeholder="Your Business Name"
+                />
               </div>
-            </Disclosure.Panel>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Tagline</label>
+                <input
+                  type="text"
+                  value={data.tagline || ''}
+                  onChange={(e) => onInputChange('tagline', '', e.target.value)}
+                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  placeholder="Your Tagline or Slogan"
+                />
+              </div>
+            </div>
           </div>
         )}
-      </Disclosure>
+      </div>
+
+      {/* Theme Section */}
+      <div>
+        <button
+          onClick={() => setOpenSection(openSection === 'theme' ? null : 'theme')}
+          className={`flex w-full justify-between rounded-lg px-3 py-2 text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 ${getColorClasses('slate')}`}
+        >
+          <span>Theme</span>
+          <ChevronDownIcon
+            className={`${
+              openSection === 'theme' ? 'transform rotate-180' : ''
+            } w-4 h-4 text-slate-500 transition-transform duration-200`}
+          />
+        </button>
+        {openSection === 'theme' && (
+          <div className="px-3 pb-3 pt-2 text-sm text-gray-500">
+            <ThemeForm section={data.theme || {}} onInputChange={onInputChange} />
+          </div>
+        )}
+      </div>
 
       {/* Section Toggles */}
-      {sections.map((section) => (
-        <Disclosure key={section.key}>
-          {({ open }) => (
-            <div>
-              <Disclosure.Button className={`flex w-full justify-between rounded-lg px-3 py-2 text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 ${getColorClasses(section.color)}`}>
-                <div className="flex items-center space-x-2">
-                  <span>{section.name}</span>
-                  <span 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onToggleSection(section.key);
-                    }}
-                    className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                  >
-                    {data[section.key]?.visible === false ? (
-                      <EyeSlashIcon className="w-4 h-4" />
-                    ) : (
-                      <EyeIcon className="w-4 h-4" />
-                    )}
-                  </span>
-                </div>
+      {sectionOrder.map((sectionKey) => {
+        const section = sections.find(s => s.key === sectionKey);
+        if (!section) return null;
+        
+        const currentIndex = sectionOrder.indexOf(sectionKey);
+        const isFirst = currentIndex === 0;
+        const isLast = currentIndex === sectionOrder.length - 1;
+        
+        return (
+          <div key={section.key}>
+            <div
+              onClick={() => setOpenSection(openSection === section.key ? null : section.key)}
+              className={`flex w-full justify-between rounded-lg px-3 py-2 text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 cursor-pointer ${getColorClasses(section.color)}`}
+            >
+              <div className="flex items-center space-x-2">
+                <span>{section.name}</span>
+                <span 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleSection(section.key);
+                  }}
+                  className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                >
+                  {data[section.key]?.visible === false ? (
+                    <EyeSlashIcon className="w-4 h-4" />
+                  ) : (
+                    <EyeIcon className="w-4 h-4" />
+                  )}
+                </span>
+              </div>
+              <div className="flex items-center space-x-1">
+                {/* Reorder Buttons */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    moveSectionUp(section.key);
+                  }}
+                  disabled={isFirst}
+                  className={`p-1 rounded hover:bg-gray-200 transition-colors ${isFirst ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-gray-700'}`}
+                  title="Move Up"
+                >
+                  <ChevronUpIcon className="w-3 h-3" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    moveSectionDown(section.key);
+                  }}
+                  disabled={isLast}
+                  className={`p-1 rounded hover:bg-gray-200 transition-colors ${isLast ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-gray-700'}`}
+                  title="Move Down"
+                >
+                  <ChevronDownIconSolid className="w-3 h-3" />
+                </button>
+                {/* Expand/Collapse Icon */}
                 <ChevronDownIcon
                   className={`${
-                    open ? 'transform rotate-180' : ''
-                  } w-4 h-4`}
+                    openSection === section.key ? 'transform rotate-180' : ''
+                  } w-4 h-4 transition-transform duration-200`}
                 />
-              </Disclosure.Button>
-              <Disclosure.Panel className="px-3 pb-3 pt-2 text-sm text-gray-500">
-                {renderSectionContent(section.key)}
-              </Disclosure.Panel>
+              </div>
             </div>
-          )}
-        </Disclosure>
-      ))}
+            {openSection === section.key && (
+              <div className="px-3 pb-3 pt-2 text-sm text-gray-500">
+                {renderSectionContent(section.key)}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

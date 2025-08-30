@@ -10,9 +10,12 @@ export default function TemplateBuilder({ onClose, onSave }) {
     formData,
     sidebarCollapsed,
     setSidebarCollapsed,
+    sectionOrder,
     handleInputChange,
     handleToggleSection,
-    handleSave
+    handleSave,
+    moveSectionUp,
+    moveSectionDown
   } = useTemplateBuilder({ onClose, onSave });
 
   return (
@@ -21,12 +24,15 @@ export default function TemplateBuilder({ onClose, onSave }) {
         sidebarCollapsed={sidebarCollapsed}
         setSidebarCollapsed={setSidebarCollapsed}
         formData={formData}
+        sectionOrder={sectionOrder}
         onInputChange={handleInputChange}
         onToggleSection={handleToggleSection}
         onSave={handleSave}
         onClose={onClose}
+        moveSectionUp={moveSectionUp}
+        moveSectionDown={moveSectionDown}
       />
-      <MainContentArea formData={formData} />
+      <MainContentArea formData={formData} sectionOrder={sectionOrder} />
     </div>
   );
 }

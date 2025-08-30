@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { User, Phone, MapPin, Instagram, Facebook, MessageCircle, Mail, Clock, Star } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { User, Phone, MapPin, Instagram, Facebook, MessageCircle, Mail, Clock, Star, Twitter, Linkedin, Youtube, Music, Send, Users, Camera } from 'lucide-react';
 import Image from 'next/image';
 
 // Import section-specific template components
 import HeaderTemplate from './components/HeaderSection/HeaderTemplate';
 import HeroTemplate from './components/HeroSection/HeroTemplate';
+import HeroTemplate2 from './components/HeroSection/HeroTemplate2';
 import AboutTemplate from './components/AboutSection/AboutTemplate';
 import PortfolioTemplate from './components/PortfolioSection/PortfolioTemplate';
 import ServicesTemplate from './components/ServicesSection/ServicesTemplate';
@@ -24,8 +25,14 @@ import ContactTemplate from './components/ContactSection/ContactTemplate';
 import SocialTemplate from './components/SocialSection/SocialTemplate';
 import FooterTemplate from './components/FooterSection/FooterTemplate';
 
-export default function UniversalTemplate({ data }) {
+export default function UniversalTemplate({ data, sectionOrder = [] }) {
   const [isVisible, setIsVisible] = useState(false);
+
+  // Get theme colors
+  const theme = data.theme || {};
+  const primaryColor = theme.primaryColor || '#3B82F6';
+  const secondaryColor = theme.secondaryColor || '#8B5CF6';
+  const accentColor = theme.accentColor || '#F59E0B';
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -63,7 +70,7 @@ export default function UniversalTemplate({ data }) {
   };
 
   const handleSocialClick = (url) => {
-    if (url) {
+    if (url && url.trim() !== '') {
       window.open(url, '_blank');
     }
   };
@@ -107,12 +114,15 @@ export default function UniversalTemplate({ data }) {
     const section = data[sectionKey];
     if (!section || section.visible === false) return null;
 
+    // Don't render theme section in preview
+    if (sectionKey === 'theme') return null;
+
     switch (sectionKey) {
       case 'header':
         return <HeaderTemplate section={section} businessName={data.businessName} tagline={data.tagline} />;
 
       case 'hero':
-        return <HeroTemplate section={section} />;
+        return section.template === 2 ? <HeroTemplate2 section={section} /> : <HeroTemplate section={section} />;
 
       case 'about':
         return <AboutTemplate section={section} />;
@@ -182,23 +192,40 @@ export default function UniversalTemplate({ data }) {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div 
+      className="min-h-screen bg-white"
+      style={{
+        '--primary-color': primaryColor,
+        '--secondary-color': secondaryColor,
+        '--accent-color': accentColor,
+      }}
+    >
       {/* Sticky Social Media Bar */}
-      {data.social?.visible !== false && data.social?.platforms && (
+      {data.social?.sticky !== false && data.social?.platforms && (
         <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 transition-all duration-500">
           <div className="flex flex-col space-y-4">
-            {data.social.platforms.map((platform, index) => (
-              <button
-                key={index}
-                onClick={() => handleSocialClick(platform.url)}
-                className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300"
-                aria-label={`Follow us on ${platform.name}`}
-              >
-                {platform.icon === 'facebook' && <Facebook className="w-6 h-6 text-white" />}
-                {platform.icon === 'instagram' && <Instagram className="w-6 h-6 text-white" />}
-                {platform.icon === 'whatsapp' && <MessageCircle className="w-6 h-6 text-white" />}
-              </button>
-            ))}
+            {data.social.platforms
+              .filter(platform => 
+                platform.enabled && 
+                ['facebook', 'instagram', 'whatsapp', 'discord'].includes(platform.icon)
+              )
+              .slice(0, 4)
+              .map((platform, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleSocialClick(platform.url)}
+                  className="w-12 h-12 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300"
+                  style={{
+                    background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`
+                  }}
+                  aria-label={`Follow us on ${platform.name}`}
+                >
+                  {platform.icon === 'facebook' && <Facebook className="w-6 h-6 text-white" />}
+                  {platform.icon === 'instagram' && <Instagram className="w-6 h-6 text-white" />}
+                  {platform.icon === 'whatsapp' && <MessageCircle className="w-6 h-6 text-white" />}
+                  {platform.icon === 'discord' && <Users className="w-6 h-6 text-white" />}
+                </button>
+              ))}
           </div>
         </div>
       )}
@@ -210,7 +237,8 @@ export default function UniversalTemplate({ data }) {
             {data.contact?.phone && (
               <button
                 onClick={handleCall}
-                className="bg-blue-600 text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-2 animate-pulse"
+                className="text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-2 animate-pulse"
+                style={{ backgroundColor: primaryColor }}
               >
                 <Phone className="w-5 h-5" />
                 <span className="font-bold">Call</span>
@@ -219,7 +247,8 @@ export default function UniversalTemplate({ data }) {
             {data.contact?.email && (
               <button
                 onClick={handleEmail}
-                className="bg-green-600 text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-2 animate-pulse"
+                className="text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-2 animate-pulse"
+                style={{ backgroundColor: secondaryColor }}
               >
                 <Mail className="w-5 h-5" />
                 <span className="font-bold">Email</span>
@@ -229,25 +258,36 @@ export default function UniversalTemplate({ data }) {
         </div>
       )}
 
-      {/* Render all visible sections */}
-      {renderSection('header')}
-      {renderSection('hero')}
-      {renderSection('about')}
-      {renderSection('portfolio')}
-      {renderSection('services')}
-      {renderSection('testimonials')}
-      {renderSection('skills')}
-      {renderSection('achievements')}
-      {renderSection('gallery')}
-      {renderSection('stats')}
-      {renderSection('blog')}
-      {renderSection('downloadables')}
-      {renderSection('faq')}
-      {renderSection('pricing')}
-      {renderSection('cta')}
-      {renderSection('social')}
-      {renderSection('contact')}
-      {renderSection('footer')}
+      {/* Render all visible sections in order */}
+      {sectionOrder.length > 0 ? (
+        sectionOrder.map(sectionKey => (
+          <React.Fragment key={sectionKey}>
+            {renderSection(sectionKey)}
+          </React.Fragment>
+        ))
+      ) : (
+        // Fallback to default order if sectionOrder is empty
+        <>
+          {renderSection('header')}
+          {renderSection('hero')}
+          {renderSection('about')}
+          {renderSection('portfolio')}
+          {renderSection('services')}
+          {renderSection('testimonials')}
+          {renderSection('skills')}
+          {renderSection('achievements')}
+          {renderSection('gallery')}
+          {renderSection('stats')}
+          {renderSection('blog')}
+          {renderSection('downloadables')}
+          {renderSection('faq')}
+          {renderSection('pricing')}
+          {renderSection('cta')}
+          {renderSection('social')}
+          {renderSection('contact')}
+          {renderSection('footer')}
+        </>
+      )}
     </div>
   );
 }

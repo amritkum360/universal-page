@@ -31,7 +31,7 @@ export default function HeaderTemplate({ section, businessName, tagline }) {
               <a
                 key={index}
                 href={item.link}
-                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                className="text-gray-700 hover:theme-primary transition-colors font-medium"
               >
                 {item.name}
               </a>
@@ -42,9 +42,10 @@ export default function HeaderTemplate({ section, businessName, tagline }) {
                 href={button.link}
                 className={`px-4 py-2 rounded-lg transition-colors font-medium ${
                   button.primary 
-                    ? 'bg-blue-500 text-white hover:bg-blue-600' 
+                    ? 'text-white hover:opacity-90' 
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
+                style={button.primary ? { backgroundColor: 'var(--primary-color, #3B82F6)' } : {}}
               >
                 {button.text}
               </a>

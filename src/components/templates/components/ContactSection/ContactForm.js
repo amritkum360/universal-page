@@ -36,6 +36,17 @@ export default function ContactForm({ section, onInputChange }) {
         />
       </div>
       <div>
+        <label className="block text-xs font-medium text-gray-700 mb-1">WhatsApp Number</label>
+        <input
+          type="tel"
+          value={section.whatsapp || ''}
+          onChange={(e) => onInputChange('contact', 'whatsapp', e.target.value)}
+          className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+          placeholder="+1 234 567 8900 (for WhatsApp messages)"
+        />
+        <p className="text-xs text-gray-500 mt-1">This number will receive WhatsApp messages from the contact form</p>
+      </div>
+      <div>
         <label className="block text-xs font-medium text-gray-700 mb-1">Email</label>
         <input
           type="email"

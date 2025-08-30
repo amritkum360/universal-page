@@ -7,10 +7,13 @@ export default function Sidebar({
   sidebarCollapsed, 
   setSidebarCollapsed, 
   formData, 
+  sectionOrder,
   onInputChange, 
   onToggleSection, 
   onSave, 
-  onClose 
+  onClose,
+  moveSectionUp,
+  moveSectionDown
 }) {
   return (
     <div className={`bg-white shadow-2xl transition-all duration-300 flex flex-col ${sidebarCollapsed ? 'w-16' : 'w-80'}`}>
@@ -44,8 +47,11 @@ export default function Sidebar({
           <div className="p-4">
             <UniversalForm 
               data={formData}
+              sectionOrder={sectionOrder}
               onInputChange={onInputChange}
               onToggleSection={onToggleSection}
+              moveSectionUp={moveSectionUp}
+              moveSectionDown={moveSectionDown}
             />
           </div>
         )}

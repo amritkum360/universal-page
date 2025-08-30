@@ -1,41 +1,47 @@
 'use client';
 
 import React from 'react';
-import { Phone, MapPin, Mail, Clock } from 'lucide-react';
+import { Phone, MapPin, Mail, Clock, MessageCircle } from 'lucide-react';
 
 export default function ContactTemplate({ section, businessName }) {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     
     const formData = new FormData(e.target);
-    const formDataObj = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      message: formData.get('message'),
-      timestamp: new Date().toISOString(),
-      source: `${businessName} Website`
-    };
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const phone = formData.get('phone');
+    const message = formData.get('message');
+    
+    // Create WhatsApp message
+    const whatsappMessage = `*New Contact Form Message from ${businessName}*
 
-    try {
-      // You can replace this with your actual webhook URL
-      const response = await fetch('https://your-webhook-url.com/webhook', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formDataObj)
-      });
+*Name:* ${name}
+*Email:* ${email}
+${phone ? `*Phone:* ${phone}` : ''}
+*Message:* ${message}
 
-      if (response.ok) {
-        alert('Thank you! Your message has been sent successfully. We will contact you soon.');
-        e.target.reset();
-      } else {
-        alert('Sorry, there was an error sending your message. Please try again or call us directly.');
-      }
-    } catch (error) {
-      console.error('Error sending form:', error);
-      alert('Sorry, there was an error sending your message. Please try again or call us directly.');
+*Sent from:* ${businessName} Website`;
+
+    // Check if WhatsApp number is available
+    if (section.whatsapp && section.whatsapp.trim() !== '') {
+      // Format phone number for WhatsApp (remove all non-digits)
+      const whatsappNumber = section.whatsapp.replace(/\D/g, '');
+      const encodedMessage = encodeURIComponent(whatsappMessage);
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+      
+      // Open WhatsApp with pre-filled message
+      window.open(whatsappUrl, '_blank');
+      
+      // Show success message
+      alert('Opening WhatsApp with your message. Please send the message to complete the process.');
+      e.target.reset();
+    } else {
+      // Fallback to email if no WhatsApp number
+      const mailtoUrl = `mailto:${section.email || 'info@yourbusiness.com'}?subject=Contact Form Message from ${businessName}&body=${encodeURIComponent(whatsappMessage)}`;
+      window.open(mailtoUrl, '_self');
+      alert('Opening email client with your message. Please send the email to complete the process.');
+      e.target.reset();
     }
   };
 
@@ -53,44 +59,55 @@ export default function ContactTemplate({ section, businessName }) {
             <div>
               <h3 className="text-2xl font-bold text-gray-800 mb-8">Get In Touch</h3>
               <div className="space-y-6">
-                {section.address && (
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                      <MapPin className="w-6 h-6 text-white" />
-                    </div>
+                                 {section.address && (
+                   <div className="flex items-center space-x-4">
+                     <div className="w-12 h-12 rounded-full flex items-center justify-center theme-primary-bg">
+                       <MapPin className="w-6 h-6 text-white" />
+                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-800">Address</h4>
                       <p className="text-gray-600">{section.address}</p>
                     </div>
                   </div>
                 )}
-                {section.phone && (
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                      <Phone className="w-6 h-6 text-white" />
-                    </div>
+                                 {section.phone && (
+                   <div className="flex items-center space-x-4">
+                     <div className="w-12 h-12 rounded-full flex items-center justify-center theme-primary-bg">
+                       <Phone className="w-6 h-6 text-white" />
+                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-800">Phone</h4>
                       <p className="text-gray-600">{section.phone}</p>
                     </div>
                   </div>
                 )}
-                {section.email && (
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                      <Mail className="w-6 h-6 text-white" />
+                                 {section.whatsapp && (
+                   <div className="flex items-center space-x-4">
+                     <div className="w-12 h-12 rounded-full flex items-center justify-center theme-secondary-bg">
+                       <MessageCircle className="w-6 h-6 text-white" />
+                     </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-800">WhatsApp</h4>
+                      <p className="text-gray-600">{section.whatsapp}</p>
                     </div>
+                  </div>
+                )}
+                                 {section.email && (
+                   <div className="flex items-center space-x-4">
+                     <div className="w-12 h-12 rounded-full flex items-center justify-center theme-accent-bg">
+                       <Mail className="w-6 h-6 text-white" />
+                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-800">Email</h4>
                       <p className="text-gray-600">{section.email}</p>
                     </div>
                   </div>
                 )}
-                {section.hours && (
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                      <Clock className="w-6 h-6 text-white" />
-                    </div>
+                                 {section.hours && (
+                   <div className="flex items-center space-x-4">
+                     <div className="w-12 h-12 rounded-full flex items-center justify-center theme-primary-bg">
+                       <Clock className="w-6 h-6 text-white" />
+                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-800">Business Hours</h4>
                       <p className="text-gray-600">{section.hours}</p>
@@ -149,9 +166,11 @@ export default function ContactTemplate({ section, businessName }) {
                   )}
                   <button
                     type="submit"
-                    className="w-full bg-blue-500 text-white py-3 rounded-full font-semibold hover:bg-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="w-full text-white py-3 rounded-full font-semibold hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                style={{ backgroundColor: 'var(--primary-color, #10B981)' }}
                   >
-                    Send Message
+                    <MessageCircle className="w-5 h-5" />
+                    <span>Send via WhatsApp</span>
                   </button>
                 </form>
               </div>

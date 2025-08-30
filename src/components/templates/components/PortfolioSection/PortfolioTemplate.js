@@ -5,50 +5,67 @@ import React from 'react';
 
 export default function PortfolioTemplate({ section }) {
   return (
-    <section className="py-16 px-4 bg-gradient-to-r from-yellow-50 to-orange-50" role="region" aria-label="Portfolio">
+    <section className="py-16 px-4" style={{ background: `linear-gradient(90deg, var(--accent-color, #F59E0B) / 5%, var(--primary-color, #3B82F6) / 5%)` }} role="region" aria-label="Portfolio">
       <div className="container mx-auto">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
+            <div className="flex justify-center items-center mb-4">
+              <div className="w-4 h-1" style={{ backgroundColor: 'var(--primary-color, #3B82F6)' }}></div>
+              <div className="w-1 h-1 rounded-full mx-2" style={{ backgroundColor: 'var(--primary-color, #3B82F6)' }}></div>
+              <div className="w-4 h-1" style={{ backgroundColor: 'var(--primary-color, #3B82F6)' }}></div>
+            </div>
             <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">{section.title}</h2>
             {section.subtitle && (
-              <p className="text-xl text-gray-600">{section.subtitle}</p>
+              <p className="text-xl text-gray-600 theme-primary">{section.subtitle}</p>
             )}
           </div>
           {section.projects && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {section.projects.map((project, index) => (
-                <div key={index} className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                  {project.image ? (
-                    <div className="h-48 overflow-hidden">
-                      <Image
-                        src={project.image}
-                        alt={project.title || 'Project image'}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                      <div className="w-full h-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center" style={{display: 'none'}}>
-                        <span className="text-6xl">📁</span>
+                <div key={index} className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 relative group">
+                  <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ 
+                    background: `linear-gradient(45deg, var(--primary-color, #3B82F6), var(--secondary-color, #8B5CF6), var(--accent-color, #F59E0B))`,
+                    filter: 'blur(8px)',
+                    zIndex: -1
+                  }}></div>
+                                    <div className="relative bg-white rounded-3xl p-1">
+                    <div className="bg-white rounded-3xl overflow-hidden">
+                      {project.image ? (
+                        <div className="h-48 overflow-hidden">
+                          <Image
+                            src={project.image}
+                            alt={project.title || 'Project image'}
+                            width={400}
+                            height={192}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                              e.target.nextSibling.style.display = 'flex';
+                            }}
+                          />
+                          <div className="w-full h-full flex items-center justify-center theme-gradient" style={{display: 'none'}}>
+                            <span className="text-6xl">📁</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="h-48 flex items-center justify-center theme-gradient">
+                          <span className="text-6xl">📁</span>
+                        </div>
+                      )}
+                      <div className="p-6">
+                                                 <h3 className="text-xl font-bold text-gray-800 mb-3 theme-primary">{project.title}</h3>
+                        <p className="text-gray-600 mb-4">{project.description}</p>
+                        {project.link && (
+                          <a
+                            href={project.link}
+                            className="inline-block text-white px-4 py-2 rounded-lg hover:opacity-90 transition-colors"
+                            style={{ backgroundColor: 'var(--primary-color, #3B82F6)' }}
+                          >
+                            View Project
+                          </a>
+                        )}
                       </div>
                     </div>
-                  ) : (
-                    <div className="h-48 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
-                      <span className="text-6xl">📁</span>
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-800 mb-3">{project.title}</h3>
-                    <p className="text-gray-600 mb-4">{project.description}</p>
-                    {project.link && (
-                      <a
-                        href={project.link}
-                        className="inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors"
-                      >
-                        View Project
-                      </a>
-                    )}
                   </div>
                 </div>
               ))}

@@ -6,6 +6,11 @@ import React, { useRef } from 'react';
 export default function HeroForm({ section, onInputChange }) {
   const fileInputRef = useRef(null);
 
+  // Template selection handler
+  const handleTemplateChange = (templateNumber) => {
+    onInputChange('hero', 'template', templateNumber);
+  };
+
   const handleBackgroundImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -15,8 +20,11 @@ export default function HeroForm({ section, onInputChange }) {
     }
   };
 
-  const handleBackgroundImageUrlChange = (event) => {
-    onInputChange('hero', 'backgroundImage', event.target.value);
+  const removeBackgroundImage = () => {
+    onInputChange('hero', 'backgroundImage', '');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const addCTAButton = () => {
@@ -37,6 +45,37 @@ export default function HeroForm({ section, onInputChange }) {
 
   return (
     <div className="space-y-3">
+      {/* Template Selection */}
+      <div>
+        <label className="block text-xs font-medium text-gray-700 mb-2">Hero Template</label>
+        <div className="flex space-x-2">
+          <button
+            type="button"
+            onClick={() => handleTemplateChange(1)}
+            className={`flex-1 py-2 px-3 text-xs font-medium rounded-md transition-colors ${
+              (section.template || 1) === 1
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            Template 1
+            <div className="text-xs opacity-75 mt-1">Full-width background</div>
+          </button>
+          <button
+            type="button"
+            onClick={() => handleTemplateChange(2)}
+            className={`flex-1 py-2 px-3 text-xs font-medium rounded-md transition-colors ${
+              (section.template || 1) === 2
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            Template 2
+            <div className="text-xs opacity-75 mt-1">Image right, content left</div>
+          </button>
+        </div>
+      </div>
+
       <div>
         <label className="block text-xs font-medium text-gray-700 mb-1">Title</label>
         <input
@@ -72,7 +111,6 @@ export default function HeroForm({ section, onInputChange }) {
         <div className="space-y-2">
           {/* File Upload Option */}
           <div>
-            <label className="block text-xs text-gray-600 mb-1">Upload from device:</label>
             <input
               ref={fileInputRef}
               type="file"
@@ -82,33 +120,25 @@ export default function HeroForm({ section, onInputChange }) {
             />
           </div>
           
-          {/* OR Divider */}
-          <div className="flex items-center">
-            <div className="flex-1 border-t border-gray-300"></div>
-            <span className="px-2 text-xs text-gray-500">OR</span>
-            <div className="flex-1 border-t border-gray-300"></div>
-          </div>
-          
-          {/* URL Input Option */}
-          <div>
-            <label className="block text-xs text-gray-600 mb-1">Enter URL:</label>
-            <input
-              type="text"
-              value={section.backgroundImage || ''}
-              onChange={handleBackgroundImageUrlChange}
-              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-              placeholder="Background image URL"
-            />
-          </div>
-          
-          {/* Preview */}
+          {/* Preview and Remove Button */}
           {section.backgroundImage && (
             <div className="mt-2">
-              <label className="block text-xs text-gray-600 mb-1">Preview:</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs text-gray-600">Preview:</label>
+                <button
+                  type="button"
+                  onClick={removeBackgroundImage}
+                  className="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                >
+                  Remove Image
+                </button>
+              </div>
               <div className="w-full h-24 border border-gray-300 rounded-md overflow-hidden">
                 <Image
                   src={section.backgroundImage} 
                   alt="Background preview" 
+                  width={400}
+                  height={96}
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     e.target.style.display = 'none';
@@ -123,6 +153,28 @@ export default function HeroForm({ section, onInputChange }) {
           )}
         </div>
       </div>
+
+      {/* Image Border Radius (for Template 2) */}
+      {(section.template || 1) === 2 && (
+        <div>
+          <label className="block text-xs font-medium text-gray-700 mb-2">
+            Image Border Radius: {section.imageBorderRadius || 50}%
+          </label>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={section.imageBorderRadius || 50}
+            onChange={(e) => onInputChange('hero', 'imageBorderRadius', parseInt(e.target.value))}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+          />
+          <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <span>Square (0%)</span>
+            <span>Round (50%)</span>
+            <span>Oval (100%)</span>
+          </div>
+        </div>
+      )}
 
       {/* CTA Buttons Section */}
       <div>
