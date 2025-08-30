@@ -63,7 +63,7 @@ export default function FooterTemplate({ section }) {
                 ) : (
                   <>
                     <p>Get in touch with us for any questions or inquiries.</p>
-                    <p>We're here to help you succeed.</p>
+                    <p>We are here to help you succeed.</p>
                   </>
                 )}
               </div>

@@ -134,7 +134,7 @@ export default function FooterForm({ section, onInputChange }) {
           
           {(!section.links || section.links.length === 0) && (
             <div className="text-xs text-gray-500 text-center py-3 border border-gray-200 rounded-lg">
-              No footer links yet. Click "Add Link" to get started.
+              No footer links yet. Click Add Link to get started.
             </div>
           )}
         </div>
