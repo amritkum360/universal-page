@@ -246,7 +246,7 @@ const LoginForm = ({ onLogin, onSwitchToRegister, onForgotPassword, isLoading })
             {/* Switch to Register */}
             <div className="mt-8 text-center">
               <p className="text-gray-600 font-body">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <button
                   onClick={onSwitchToRegister}
                   className="text-blue-600 hover:text-blue-700 font-semibold transition-colors font-body"
@@ -302,7 +302,7 @@ const LoginForm = ({ onLogin, onSwitchToRegister, onForgotPassword, isLoading })
                 Reset Your Password
               </h3>
               <p className="text-gray-600 font-body">
-                Enter your email address and we'll send you a link to reset your password.
+                Enter your email address and we&apos;ll send you a link to reset your password.
               </p>
             </div>
 

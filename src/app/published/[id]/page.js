@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import UniversalTemplate from '@/components/templates/UniversalTemplate';
 import { use } from 'react';
+import Link from 'next/link';
 
 export default function PublishedWebsitePage({ params }) {
   const { getPublishedWebsite } = useAuth();
@@ -56,12 +57,12 @@ export default function PublishedWebsitePage({ params }) {
           <h3 className="text-lg font-medium text-gray-900 mb-2">Website Not Found</h3>
           <p className="text-gray-600">{error}</p>
           <div className="mt-6">
-            <a
+            <Link
               href="/"
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
             >
               Go Home
-            </a>
+            </Link>
           </div>
         </div>
       </div>

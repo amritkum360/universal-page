@@ -337,7 +337,7 @@ Thank you for your business!
             <div className="p-12 text-center">
               <CreditCard className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">No Payment History</h3>
-              <p className="text-gray-500 mb-4">You haven't made any payments yet. Your billing history will appear here after you subscribe to a plan.</p>
+              <p className="text-gray-500 mb-4">You haven&apos;t made any payments yet. Your billing history will appear here after you subscribe to a plan.</p>
               <button
                 onClick={() => window.history.back()}
                 className="inline-flex items-center px-4 py-2 border border-indigo-300 text-sm font-medium rounded-lg text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"

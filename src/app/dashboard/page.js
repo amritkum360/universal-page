@@ -586,7 +586,7 @@ function DashboardContent() {
             </div>
             <h3 className="mt-2 text-lg font-bold text-gray-900 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent font-heading">No websites yet</h3>
             <p className="mt-1 text-sm text-gray-600 font-body">
-              Let's create something amazing together! 🚀
+              Let&apos;s create something amazing together! 🚀
             </p>
             <div className="mt-6">
                <button
@@ -951,7 +951,7 @@ function DashboardContent() {
                    <h4 className="text-sm font-medium text-blue-800 mb-2 font-heading">📋 DNS Configuration Instructions</h4>
                    <div className="space-y-3 text-xs text-blue-700 font-body">
                      <p><strong>Step 1:</strong> Go to your domain provider (like GoDaddy, Namecheap, etc.)</p>
-                     <p><strong>Step 2:</strong> Find "DNS Settings" or "Nameservers"</p>
+                     <p><strong>Step 2:</strong> Find &quot;DNS Settings&quot; or &quot;Nameservers&quot;</p>
                      <p><strong>Step 3:</strong> You will see current nameservers like:</p>
                      <div className="bg-red-100 p-2 rounded font-mono text-sm border border-red-200">
                        <div className="text-red-700">pdns04.domaincontrol.com</div>
@@ -965,7 +965,7 @@ function DashboardContent() {
                        <div className="text-green-700 text-[10px] mt-1">✅ ADD THESE NEW ONES</div>
                      </div>
                      <p className="text-[11px] text-blue-600 mt-2">
-                       💡 <strong>Note:</strong> This may take 15-30 minutes to work. Keep checking "Check DNS" button.
+                       💡 <strong>Note:</strong> This may take 15-30 minutes to work. Keep checking &quot;Check DNS&quot; button.
                      </p>
                    </div>
                  </div>
