@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function SkillsTemplate({ section }) {
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50" role="region" aria-label="Skills">
+    <section className="py-16 px-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50" role="region" aria-label="Skills" id='skills'>
       <div className="container mx-auto">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">

@@ -1,10 +1,12 @@
 'use client';
 
-import Image from 'next/image';
 import React, { useRef } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { uploadImageToServer, isImageUploaded, getImageSrc, getImageMetadata } from '@/utils/imageUtils';
 
 export default function HeaderForm({ section, onInputChange }) {
   const fileInputRef = useRef(null);
+  const { token } = useAuth();
 
   const addMenuItem = () => {
     const newNavigation = [...(section.navigation || []), { name: 'New Menu', link: '#new' }];
@@ -38,18 +40,62 @@ export default function HeaderForm({ section, onInputChange }) {
     onInputChange('header', 'ctaButtons', newCTAButtons);
   };
 
-  const handleLogoUpload = (event) => {
+  const handleLogoUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Create a local URL for the uploaded file
-      const imageUrl = URL.createObjectURL(file);
-      onInputChange('header', 'logo', imageUrl);
+      try {
+        if (!token) {
+          alert('Please login to upload images');
+          return;
+        }
+
+        console.log('🚀 Starting logo upload:', {
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: file.type
+        });
+
+        // Clear any existing logo data first
+        onInputChange('header', 'logo', '');
+
+        // Show loading state
+        const loadingData = {
+          loading: true,
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: file.type
+        };
+        onInputChange('header', 'logo', loadingData);
+
+        // Upload image to server
+        const logoData = await uploadImageToServer(file, token, 5);
+        console.log('✅ Upload successful, logo data:', logoData);
+        
+        // Verify the data structure
+        if (!logoData.url) {
+          throw new Error('Server response missing image URL');
+        }
+        
+        onInputChange('header', 'logo', logoData);
+        
+        // Verify the data was set
+        console.log('🔍 Logo data after setting:', logoData);
+        
+      } catch (error) {
+        console.error('❌ Upload failed:', error);
+        alert(error.message);
+        // Remove loading state on error
+        onInputChange('header', 'logo', '');
+      }
     }
   };
 
-  const handleLogoUrlChange = (event) => {
-    onInputChange('header', 'logo', event.target.value);
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
   };
+
+  // Get image metadata for display
+  const logoMetadata = getImageMetadata(section.logo);
 
   return (
     <div className="space-y-4">
@@ -59,45 +105,57 @@ export default function HeaderForm({ section, onInputChange }) {
         <div className="space-y-2">
           {/* File Upload Option */}
           <div>
-            <label className="block text-xs text-gray-600 mb-1">Upload from device:</label>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleLogoUpload}
-              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-          
-          {/* OR Divider */}
-          <div className="flex items-center">
-            <div className="flex-1 border-t border-gray-300"></div>
-            <span className="px-2 text-xs text-gray-500">OR</span>
-            <div className="flex-1 border-t border-gray-300"></div>
-          </div>
-          
-          {/* URL Input Option */}
-          <div>
-            <label className="block text-xs text-gray-600 mb-1">Enter URL:</label>
-            <input
-              type="text"
-              value={section.logo || ''}
-              onChange={handleLogoUrlChange}
-              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-              placeholder="Logo URL"
-            />
+            <label className="block text-xs text-gray-600 mb-2">Upload logo from your device:</label>
+            
+            {/* Custom Upload Button */}
+            <div className="relative">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleLogoUpload}
+                className="hidden"
+              />
+              <button
+                onClick={triggerFileInput}
+                disabled={section.logo?.loading}
+                className={`w-full flex items-center justify-center space-x-2 px-4 py-3 border-2 border-dashed border-blue-300 rounded-lg transition-all duration-200 cursor-pointer group ${
+                  section.logo?.loading 
+                    ? 'bg-gray-100 border-gray-200 cursor-not-allowed' 
+                    : 'bg-blue-50 hover:bg-blue-100 hover:border-blue-400'
+                }`}
+              >
+                {section.logo?.loading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    <span className="text-sm font-medium text-gray-600">Uploading...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-5 h-5 text-blue-500 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <span className="text-sm font-medium text-blue-600 group-hover:text-blue-700">
+                      Choose Logo File
+                    </span>
+                  </>
+                )}
+              </button>
+            </div>
+            
+            <p className="text-xs text-gray-500 mt-2 text-center">
+              Supported formats: JPG, PNG, GIF, SVG • Max size: 5MB • Recommended size: 200x60px
+            </p>
           </div>
           
           {/* Preview */}
-          {section.logo && (
-            <div className="mt-2">
-              <label className="block text-xs text-gray-600 mb-1">Preview:</label>
-              <div className="w-16 h-16 border border-gray-300 rounded-md overflow-hidden">
-                <Image
-                  src={section.logo} 
+          {isImageUploaded(section.logo) && !section.logo?.loading && (
+            <div className="mt-3">
+              <label className="block text-xs text-gray-600 mb-2">Logo Preview:</label>
+              <div className="w-24 h-14 border-2 border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
+                <img
+                  src={getImageSrc(section.logo)} 
                   alt="Logo preview" 
-                  width={64}
-                  height={64}
                   className="w-full h-full object-contain"
                   onError={(e) => {
                     e.target.style.display = 'none';
@@ -107,6 +165,24 @@ export default function HeaderForm({ section, onInputChange }) {
                 <div className="w-full h-full flex items-center justify-center text-xs text-gray-400 bg-gray-50" style={{display: 'none'}}>
                   Invalid Image
                 </div>
+              </div>
+              <div className="flex items-center justify-between mt-2">
+                <div className="flex flex-col">
+                  <span className="text-xs text-green-600 font-medium">
+                    {section.logo?.isServerImage ? '✓ Logo uploaded to server' : '✓ Logo uploaded successfully'}
+                  </span>
+                  {logoMetadata && (
+                    <span className="text-xs text-gray-500">
+                      {logoMetadata.fileName} ({(logoMetadata.fileSize / 1024).toFixed(1)}KB)
+                    </span>
+                  )}
+                </div>
+                <button
+                  onClick={() => onInputChange('header', 'logo', '')}
+                  className="text-xs text-red-500 hover:text-red-700 font-medium"
+                >
+                  Remove
+                </button>
               </div>
             </div>
           )}

@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function CTATemplate({ section }) {
   return (
-    <section className="py-16 px-4 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50" role="region" aria-label="Call to Action">
+    <section className="py-16 px-4 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50" role="region" aria-label="Call to Action" id='cta'>
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">{section.title}</h2>

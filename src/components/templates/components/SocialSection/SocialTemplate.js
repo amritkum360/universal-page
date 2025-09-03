@@ -45,7 +45,7 @@ export default function SocialTemplate({ section }) {
   };
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 border-2 border-dotted" style={{ borderColor: 'var(--primary-color, #3B82F6)' }} role="region" aria-label="Social Media">
+    <section className="py-16 px-4 bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 border-2 border-dotted" style={{ borderColor: 'var(--primary-color, #3B82F6)' }} role="region" aria-label="Social Media" id='social'>
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center">
           {section.title && (

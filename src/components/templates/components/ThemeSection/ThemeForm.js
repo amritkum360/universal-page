@@ -1,17 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function ThemeForm({ section, onInputChange }) {
+  const [showCustomColors, setShowCustomColors] = useState(false);
+  
   const themes = [
     {
       id: 'default',
       name: 'Default',
       description: 'Blue & Purple Theme',
       colors: {
-        primary: '#3B82F6',
-        secondary: '#8B5CF6',
-        accent: '#F59E0B'
+        primary: '#000000',
+        secondary: '#ffffff',
+        accent: '#a540f7'
       }
     },
     {
@@ -43,6 +45,16 @@ export default function ThemeForm({ section, onInputChange }) {
         secondary: '#059669',
         accent: '#F59E0B'
       }
+    },
+    {
+      id: 'custom',
+      name: 'Custom',
+      description: 'Choose Your Own Colors',
+      colors: {
+        primary: section.primaryColor || '#3B82F6',
+        secondary: section.secondaryColor || '#8B5CF6',
+        accent: section.accentColor || '#F59E0B'
+      }
     }
   ];
 
@@ -50,10 +62,17 @@ export default function ThemeForm({ section, onInputChange }) {
     const selectedTheme = themes.find(theme => theme.id === themeId);
     if (selectedTheme) {
       onInputChange('theme', 'selectedTheme', themeId);
-      onInputChange('theme', 'primaryColor', selectedTheme.colors.primary);
-      onInputChange('theme', 'secondaryColor', selectedTheme.colors.secondary);
-      onInputChange('theme', 'accentColor', selectedTheme.colors.accent);
+      if (themeId !== 'custom') {
+        onInputChange('theme', 'primaryColor', selectedTheme.colors.primary);
+        onInputChange('theme', 'secondaryColor', selectedTheme.colors.secondary);
+        onInputChange('theme', 'accentColor', selectedTheme.colors.accent);
+      }
+      setShowCustomColors(themeId === 'custom');
     }
+  };
+
+  const handleCustomColorChange = (colorType, value) => {
+    onInputChange('theme', colorType, value);
   };
 
   return (
@@ -109,6 +128,68 @@ export default function ThemeForm({ section, onInputChange }) {
         </div>
       </div>
 
+      {/* Custom Color Picker */}
+      {showCustomColors && (
+        <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg border border-purple-200">
+          <h4 className="text-sm font-medium text-gray-700 mb-3 flex items-center">
+            <span className="mr-2">🎨</span>
+            Custom Color Palette
+          </h4>
+          <div className="space-y-3">
+            <div className="flex items-center space-x-3">
+              <label className="text-sm font-medium text-gray-600 w-20">Primary:</label>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="color"
+                  value={section.primaryColor || '#3B82F6'}
+                  onChange={(e) => handleCustomColorChange('primaryColor', e.target.value)}
+                  className="w-10 h-10 rounded-lg border-2 border-gray-300 cursor-pointer"
+                />
+                <span className="text-sm text-gray-500 font-mono">
+                  {section.primaryColor || '#3B82F6'}
+                </span>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-3">
+              <label className="text-sm font-medium text-gray-600 w-20">Secondary:</label>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="color"
+                  value={section.secondaryColor || '#8B5CF6'}
+                  onChange={(e) => handleCustomColorChange('secondaryColor', e.target.value)}
+                  className="w-10 h-10 rounded-lg border-2 border-gray-300 cursor-pointer"
+                />
+                <span className="text-sm text-gray-500 font-mono">
+                  {section.secondaryColor || '#8B5CF6'}
+                </span>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-3">
+              <label className="text-sm font-medium text-gray-600 w-20">Accent:</label>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="color"
+                  value={section.accentColor || '#F59E0B'}
+                  onChange={(e) => handleCustomColorChange('accentColor', e.target.value)}
+                  className="w-10 h-10 rounded-lg border-2 border-gray-300 cursor-pointer"
+                />
+                <span className="text-sm text-gray-500 font-mono">
+                  {section.accentColor || '#F59E0B'}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-3 p-2 bg-white rounded border">
+            <p className="text-xs text-gray-600">
+              <strong>Preview:</strong> Your custom colors will be applied to buttons, links, and highlights throughout your page.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Current Theme Info */}
       <div className="bg-gray-50 p-3 rounded-lg">
         <h4 className="text-sm font-medium text-gray-700 mb-2">Current Theme</h4>
@@ -128,7 +209,9 @@ export default function ThemeForm({ section, onInputChange }) {
             ></div>
           </div>
           <span className="text-sm text-gray-600">
-            {themes.find(t => t.id === (section.selectedTheme || 'default'))?.name || 'Default'} Theme
+            {(section.selectedTheme || 'default') === 'custom' 
+              ? 'Custom Theme' 
+              : themes.find(t => t.id === (section.selectedTheme || 'default'))?.name || 'Default'} Theme
           </span>
         </div>
       </div>
@@ -141,6 +224,7 @@ export default function ThemeForm({ section, onInputChange }) {
           <li>• <strong>Yellow:</strong> Energetic and attention-grabbing</li>
           <li>• <strong>Pink:</strong> Modern and trendy for creative businesses</li>
           <li>• <strong>Green:</strong> Natural and trustworthy for eco-friendly brands</li>
+          <li>• <strong>Custom:</strong> Create your own unique color scheme</li>
         </ul>
       </div>
     </div>

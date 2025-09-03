@@ -5,10 +5,33 @@ export const defaultUniversalData = {
   tagline: 'Your Tagline or Slogan',
   logo: '',
   favicon: '',
+  subdomain: '',
+  
+  // Section Order
+  sectionOrder: [
+    'header',
+    'hero',
+    'about',
+    'portfolio',
+    'services',
+    'testimonials',
+    'skills',
+    'achievements',
+    'gallery',
+    'stats',
+    'blog',
+    'downloadables',
+    'faq',
+    'pricing',
+    'cta',
+    'social',
+    'contact',
+    'footer'
+  ],
   
   // Header
   header: {
-    visible: false,
+    visible: true,
     logo: '',
     navigation: [
       { name: 'Home', link: '#home' },
@@ -23,7 +46,7 @@ export const defaultUniversalData = {
 
   // Hero Section
   hero: {
-    visible: false,
+    visible: true,
     template: 1,
     title: 'Welcome to Our Business',
     subtitle: 'Professional Solutions for Your Needs',
@@ -76,7 +99,7 @@ export const defaultUniversalData = {
 
   // Testimonials/Reviews
   testimonials: {
-    visible: false,
+    visible: true,
     title: 'What Our Clients Say',
     subtitle: 'Customer Reviews',
     items: [
@@ -126,7 +149,7 @@ export const defaultUniversalData = {
 
   // Stats/Numbers
   stats: {
-    visible: false,
+    visible: true,
     title: 'Our Numbers',
     subtitle: 'Key Statistics',
     items: [
@@ -163,7 +186,7 @@ export const defaultUniversalData = {
 
   // FAQ
   faq: {
-    visible: false,
+    visible: true,
     title: 'Frequently Asked Questions',
     subtitle: 'Common Questions',
     items: [
@@ -217,7 +240,7 @@ export const defaultUniversalData = {
 
   // Contact
   contact: {
-    visible: false,
+    visible: true,
     title: 'Contact Us',
     subtitle: 'Get In Touch',
     address: 'Your Business Address',
@@ -236,7 +259,7 @@ export const defaultUniversalData = {
 
   // Footer
   footer: {
-    visible: false,
+    visible: true,
     copyright: '© 2024 Your Business Name. All rights reserved.',
     description: 'We are dedicated to providing exceptional services and creating meaningful connections with our customers.',
     backgroundColor: 'dark',
@@ -252,9 +275,9 @@ export const defaultUniversalData = {
   // Theme & Styling
   theme: {
     selectedTheme: 'default',
-    primaryColor: '#3B82F6',
-    secondaryColor: '#8B5CF6',
-    accentColor: '#F59E0B',
+    primaryColor: '#000000',
+    secondaryColor: '#ffffff',
+    accentColor: '#a540f7',
     backgroundColor: '#FFFFFF',
     textColor: '#1F2937',
     fontFamily: 'Inter',

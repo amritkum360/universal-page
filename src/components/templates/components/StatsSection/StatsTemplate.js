@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function StatsTemplate({ section }) {
   return (
-    <section className="py-16 px-4" style={{ background: `linear-gradient(90deg, var(--accent-color, #F59E0B) / 5%, var(--primary-color, #3B82F6) / 5%)` }} role="region" aria-label="Stats">
+    <section className="py-16 px-4" style={{ background: `linear-gradient(90deg, var(--accent-color, #F59E0B) / 5%, var(--primary-color, #3B82F6) / 5%)` }} role="region" aria-label="Stats" id='stats'>
       <div className="container mx-auto">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 p-8 border-2 border-dashed rounded-3xl" style={{ borderColor: 'var(--primary-color, #3B82F6)' }}>

@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function DownloadablesTemplate({ section }) {
   return (
-    <section className="py-16 px-4" style={{ background: `linear-gradient(90deg, var(--secondary-color, #8B5CF6) / 5%, var(--primary-color, #3B82F6) / 5%)` }} role="region" aria-label="Downloadables">
+    <section className="py-16 px-4" style={{ background: `linear-gradient(90deg, var(--secondary-color, #8B5CF6) / 5%, var(--primary-color, #3B82F6) / 5%)` }} role="region" aria-label="Downloadables" id='downloadables'>
       <div className="container mx-auto">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -31,7 +31,7 @@ export default function DownloadablesTemplate({ section }) {
                   )}
                   
                   {/* Download Button */}
-                  {item.file && (
+                  {item.file && ( 
                     <a
                       href={item.file}
                       target="_blank"

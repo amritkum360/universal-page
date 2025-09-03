@@ -1,22 +1,65 @@
 'use client';
 
-import Image from 'next/image';
 import React, { useRef } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { uploadImageToServer, isImageUploaded, getImageSrc, getImageMetadata } from '@/utils/imageUtils';
 
 export default function HeroForm({ section, onInputChange }) {
   const fileInputRef = useRef(null);
+  const { token } = useAuth();
 
   // Template selection handler
   const handleTemplateChange = (templateNumber) => {
     onInputChange('hero', 'template', templateNumber);
   };
 
-  const handleBackgroundImageUpload = (event) => {
+  const handleBackgroundImageUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Create a local URL for the uploaded file
-      const imageUrl = URL.createObjectURL(file);
-      onInputChange('hero', 'backgroundImage', imageUrl);
+      try {
+        if (!token) {
+          alert('Please login to upload images');
+          return;
+        }
+
+        console.log('🚀 Starting background image upload:', {
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: file.type
+        });
+
+        // Clear any existing background image data first
+        onInputChange('hero', 'backgroundImage', '');
+
+        // Show loading state
+        const loadingData = {
+          loading: true,
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: file.type
+        };
+        onInputChange('hero', 'backgroundImage', loadingData);
+
+        // Upload image to server
+        const imageData = await uploadImageToServer(file, token, 5);
+        console.log('✅ Background image upload successful:', imageData);
+        
+        // Verify the data structure
+        if (!imageData.url) {
+          throw new Error('Server response missing image URL');
+        }
+        
+        onInputChange('hero', 'backgroundImage', imageData);
+        
+        // Verify the data was set
+        console.log('🔍 Background image data after setting:', imageData);
+        
+      } catch (error) {
+        console.error('❌ Background image upload failed:', error);
+        alert(error.message);
+        // Remove loading state on error
+        onInputChange('hero', 'backgroundImage', '');
+      }
     }
   };
 
@@ -25,6 +68,10 @@ export default function HeroForm({ section, onInputChange }) {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
   };
 
   const addCTAButton = () => {
@@ -42,6 +89,9 @@ export default function HeroForm({ section, onInputChange }) {
     newCTAButtons[index] = { ...newCTAButtons[index], [field]: value };
     onInputChange('hero', 'ctaButtons', newCTAButtons);
   };
+
+  // Get image metadata for display
+  const backgroundImageMetadata = getImageMetadata(section.backgroundImage);
 
   return (
     <div className="space-y-3">
@@ -111,34 +161,57 @@ export default function HeroForm({ section, onInputChange }) {
         <div className="space-y-2">
           {/* File Upload Option */}
           <div>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleBackgroundImageUpload}
-              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
+            <label className="block text-xs text-gray-600 mb-2">Upload background image from your device:</label>
+            
+            {/* Custom Upload Button */}
+            <div className="relative">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleBackgroundImageUpload}
+                className="hidden"
+              />
+              <button
+                onClick={triggerFileInput}
+                disabled={section.backgroundImage?.loading}
+                className={`w-full flex items-center justify-center space-x-2 px-4 py-3 border-2 border-dashed border-purple-300 rounded-lg transition-all duration-200 cursor-pointer group ${
+                  section.backgroundImage?.loading 
+                    ? 'bg-gray-100 border-gray-200 cursor-not-allowed' 
+                    : 'bg-purple-50 hover:bg-purple-100 hover:border-purple-400'
+                }`}
+              >
+                {section.backgroundImage?.loading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+                    <span className="text-sm font-medium text-gray-600">Uploading...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-5 h-5 text-purple-500 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2z" />
+                    </svg>
+                    <span className="text-sm font-medium text-purple-600 group-hover:text-purple-700">
+                      Choose Background Image
+                    </span>
+                  </>
+                )}
+              </button>
+            </div>
+            
+            <p className="text-xs text-gray-500 mt-2 text-center">
+              Supported formats: JPG, PNG, GIF, WebP • Max size: 5MB • Recommended size: 1920x1080px
+            </p>
           </div>
           
           {/* Preview and Remove Button */}
-          {section.backgroundImage && (
-            <div className="mt-2">
-              <div className="flex items-center justify-between mb-1">
-                <label className="block text-xs text-gray-600">Preview:</label>
-                <button
-                  type="button"
-                  onClick={removeBackgroundImage}
-                  className="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
-                >
-                  Remove Image
-                </button>
-              </div>
-              <div className="w-full h-24 border border-gray-300 rounded-md overflow-hidden">
-                <Image
-                  src={section.backgroundImage} 
+          {isImageUploaded(section.backgroundImage) && !section.backgroundImage?.loading && (
+            <div className="mt-3">
+              <label className="block text-xs text-gray-600 mb-2">Background Image Preview:</label>
+              <div className="w-full h-32 border-2 border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
+                <img
+                  src={getImageSrc(section.backgroundImage)} 
                   alt="Background preview" 
-                  width={400}
-                  height={96}
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     e.target.style.display = 'none';
@@ -149,10 +222,50 @@ export default function HeroForm({ section, onInputChange }) {
                   Invalid Image
                 </div>
               </div>
+              <div className="flex items-center justify-between mt-2">
+                <div className="flex flex-col">
+                  <span className="text-xs text-green-600 font-medium">
+                    {section.backgroundImage?.isServerImage ? '✓ Background image uploaded to server' : '✓ Background image uploaded successfully'}
+                  </span>
+                  {backgroundImageMetadata && (
+                    <span className="text-xs text-gray-500">
+                      {backgroundImageMetadata.fileName} ({(backgroundImageMetadata.fileSize / 1024).toFixed(1)}KB)
+                    </span>
+                  )}
+                </div>
+                <button
+                  onClick={removeBackgroundImage}
+                  className="text-xs text-red-500 hover:text-red-700 font-medium"
+                >
+                  Remove
+                </button>
+              </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* Background Image Transparency (for Template 1) */}
+      {(section.template || 1) === 1 && section.backgroundImage && (
+        <div>
+          <label className="block text-xs font-medium text-gray-700 mb-2">
+            Background Overlay: {section.backgroundOpacity || 40}%
+          </label>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={section.backgroundOpacity || 40}
+            onChange={(e) => onInputChange('hero', 'backgroundOpacity', parseInt(e.target.value))}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+          />
+          <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <span>Transparent (0%)</span>
+            <span>Medium (40%)</span>
+            <span>Dark (100%)</span>
+          </div>
+        </div>
+      )}
 
       {/* Image Border Radius (for Template 2) */}
       {(section.template || 1) === 2 && (

@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function FAQTemplate({ section }) {
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50" role="region" aria-label="FAQ">
+    <section className="py-16 px-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50" role="region" aria-label="FAQ" id='faq'>
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">

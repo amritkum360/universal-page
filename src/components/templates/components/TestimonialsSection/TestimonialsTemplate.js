@@ -5,7 +5,7 @@ import { Star } from 'lucide-react';
 
 export default function TestimonialsTemplate({ section }) {
   return (
-    <section className="py-16 px-4" style={{ background: `linear-gradient(90deg, var(--accent-color, #F59E0B) / 5%, var(--primary-color, #3B82F6) / 5%)` }} role="region" aria-label="Testimonials">
+    <section className="py-16 px-4" style={{ background: `linear-gradient(90deg, var(--accent-color, #F59E0B) / 5%, var(--primary-color, #3B82F6) / 5%)` }} role="region" aria-label="Testimonials" id='testimonials'>
       <div className="container mx-auto">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">

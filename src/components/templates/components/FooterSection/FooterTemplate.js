@@ -17,14 +17,14 @@ export default function FooterTemplate({ section }) {
   };
 
   return (
-    <footer className={`${getBackgroundClass()} text-white py-12 px-4`} role="contentinfo">
+    <footer className={`${getBackgroundClass()} text-white py-8 sm:py-10 md:py-12 px-4`} role="contentinfo" id='footer'>
       <div className="container mx-auto">
         <div className="max-w-6xl mx-auto">
           {/* Main Footer Content */}
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 mb-8 sm:mb-10">
             {/* Company Info */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4">About Us</h3>
+            <div className="text-center sm:text-left">
+              <h3 className="text-lg sm:text-xl font-semibold mb-4 text-white">About Us</h3>
               {section.description ? (
                 <p className="text-gray-300 text-sm leading-relaxed">{section.description}</p>
               ) : (
@@ -36,14 +36,14 @@ export default function FooterTemplate({ section }) {
 
             {/* Quick Links */}
             {section.links && section.links.length > 0 && (
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-                <div className="space-y-2">
+              <div className="text-center sm:text-left">
+                <h3 className="text-lg sm:text-xl font-semibold mb-4 text-white">Quick Links</h3>
+                <div className="space-y-3">
                   {section.links.slice(0, 4).map((link, index) => (
                     <a
                       key={index}
                       href={link.url}
-                      className="block text-gray-300 hover:text-white transition-colors text-sm"
+                      className="block text-gray-300 hover:text-white transition-colors text-sm hover:underline"
                     >
                       {link.name}
                     </a>
@@ -53,8 +53,8 @@ export default function FooterTemplate({ section }) {
             )}
 
             {/* Contact Info */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4">
+            <div className="text-center sm:text-left">
+              <h3 className="text-lg sm:text-xl font-semibold mb-4 text-white">
                 {section.contactTitle || 'Contact Info'}
               </h3>
               <div className="space-y-2 text-sm text-gray-300">
@@ -71,10 +71,10 @@ export default function FooterTemplate({ section }) {
           </div>
 
           {/* Bottom Bar */}
-          <div className="border-t border-gray-700 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="border-t border-gray-700 pt-6 sm:pt-8">
+            <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
               {/* Copyright */}
-              <div className="mb-4 md:mb-0">
+              <div className="text-center sm:text-left">
                 <p className="text-gray-400 text-sm">
                   {section.copyright || '© 2024 Your Business Name. All rights reserved.'}
                 </p>
@@ -87,7 +87,7 @@ export default function FooterTemplate({ section }) {
                     <a
                       key={index}
                       href={link.url}
-                      className="text-gray-400 hover:text-white transition-colors text-sm"
+                      className="text-gray-400 hover:text-white transition-colors text-sm hover:underline"
                     >
                       {link.name}
                     </a>

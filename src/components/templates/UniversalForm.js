@@ -25,29 +25,71 @@ import SocialForm from './components/SocialSection/SocialForm';
 import FooterForm from './components/FooterSection/FooterForm';
 import ThemeForm from './components/ThemeSection/ThemeForm';
 
-export default function UniversalForm({ data = {}, sectionOrder = [], onInputChange, onToggleSection, moveSectionUp, moveSectionDown }) {
+export default function UniversalForm({ data, sectionOrder, onInputChange, onToggleSection, moveSectionUp, moveSectionDown, reorderSections }) {
   const [openSection, setOpenSection] = React.useState('basic-info');
+  const [draggedSection, setDraggedSection] = React.useState(null);
+  
   const sections = [
-    { key: 'header', name: 'Header', color: 'blue' },
+    { key: 'header', name: 'Top Bar (Header)', color: 'blue' },
     { key: 'hero', name: 'Hero Section', color: 'purple' },
     { key: 'about', name: 'About Me / Us', color: 'green' },
-    { key: 'portfolio', name: 'Portfolio / Work / Projects', color: 'yellow' },
-    { key: 'services', name: 'Products / Services', color: 'indigo' },
-    { key: 'testimonials', name: 'Testimonials / Reviews', color: 'pink' },
-    { key: 'skills', name: 'Skills / Expertise', color: 'orange' },
-    { key: 'achievements', name: 'Achievements / Awards', color: 'red' },
-    { key: 'gallery', name: 'Gallery / Media', color: 'teal' },
+    { key: 'portfolio', name: 'Portfolio / Work', color: 'yellow' },
+    { key: 'services', name: 'Services / Offerings', color: 'orange' },
+    { key: 'testimonials', name: 'Testimonials / Reviews', color: 'red' },
+    { key: 'skills', name: 'Skills / Expertise', color: 'teal' },
+    { key: 'achievements', name: 'Achievements / Awards', color: 'cyan' },
+    { key: 'gallery', name: 'Photos & Videos', color: 'pink' },
     { key: 'stats', name: 'Stats / Numbers', color: 'cyan' },
     { key: 'blog', name: 'Blog / Articles', color: 'emerald' },
     { key: 'downloadables', name: 'Downloadables', color: 'violet' },
-    { key: 'faq', name: 'FAQ', color: 'amber' },
+    { key: 'faq', name: 'FAQ (Common Questions)', color: 'amber' },
     { key: 'pricing', name: 'Pricing / Packages', color: 'rose' },
     { key: 'cta', name: 'Call to Action Banner', color: 'lime' },
     { key: 'social', name: 'Social Media', color: 'sky' },
     { key: 'contact', name: 'Contact', color: 'emerald' },
-    { key: 'footer', name: 'Footer', color: 'indigo' },
+    { key: 'footer', name: 'Bottombar', color: 'indigo' },
     { key: 'theme', name: 'Theme', color: 'slate' }
   ];
+
+  const handleDragStart = (e, sectionKey) => {
+    setDraggedSection(sectionKey);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    
+    // Add visual feedback for drop target
+    const targetElement = e.currentTarget;
+    if (targetElement && draggedSection) {
+      targetElement.style.borderTop = '2px solid #3B82F6';
+    }
+  };
+
+  const handleDrop = (e, targetSectionKey) => {
+    e.preventDefault();
+    
+    // Remove visual feedback
+    const targetElement = e.currentTarget;
+    if (targetElement) {
+      targetElement.style.borderTop = '';
+    }
+    
+    if (draggedSection && draggedSection !== targetSectionKey && reorderSections) {
+      reorderSections(draggedSection, targetSectionKey);
+    }
+    setDraggedSection(null);
+  };
+
+  const handleDragEnd = () => {
+    // Remove any remaining visual feedback
+    const elements = document.querySelectorAll('[draggable="true"]');
+    elements.forEach(el => {
+      el.style.borderTop = '';
+    });
+    setDraggedSection(null);
+  };
 
   const getColorClasses = (color) => {
     const colors = {
@@ -161,6 +203,7 @@ export default function UniversalForm({ data = {}, sectionOrder = [], onInputCha
         <button
           onClick={() => setOpenSection(openSection === 'basic-info' ? null : 'basic-info')}
           className={`flex w-full justify-between rounded-lg px-3 py-2 text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 ${getColorClasses('blue')}`}
+          suppressHydrationWarning={true}
         >
           <span>Basic Info</span>
           <ChevronDownIcon
@@ -180,6 +223,7 @@ export default function UniversalForm({ data = {}, sectionOrder = [], onInputCha
                   onChange={(e) => onInputChange('businessName', '', e.target.value)}
                   className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                   placeholder="Your Business Name"
+                  suppressHydrationWarning={true}
                 />
               </div>
               <div>
@@ -190,6 +234,7 @@ export default function UniversalForm({ data = {}, sectionOrder = [], onInputCha
                   onChange={(e) => onInputChange('tagline', '', e.target.value)}
                   className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                   placeholder="Your Tagline or Slogan"
+                  suppressHydrationWarning={true}
                 />
               </div>
             </div>
@@ -202,6 +247,7 @@ export default function UniversalForm({ data = {}, sectionOrder = [], onInputCha
         <button
           onClick={() => setOpenSection(openSection === 'theme' ? null : 'theme')}
           className={`flex w-full justify-between rounded-lg px-3 py-2 text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 ${getColorClasses('slate')}`}
+          suppressHydrationWarning={true}
         >
           <span>Theme</span>
           <ChevronDownIcon
@@ -227,12 +273,30 @@ export default function UniversalForm({ data = {}, sectionOrder = [], onInputCha
         const isLast = currentIndex === sectionOrder.length - 1;
         
         return (
-          <div key={section.key}>
+          <div 
+            key={section.key}
+            draggable={true}
+            onDragStart={(e) => handleDragStart(e, section.key)}
+            onDragOver={handleDragOver}
+            onDrop={(e) => handleDrop(e, section.key)}
+            onDragEnd={handleDragEnd}
+            className={`rounded-lg ${draggedSection === section.key ? 'opacity-50' : ''}`}
+          >
             <div
               onClick={() => setOpenSection(openSection === section.key ? null : section.key)}
               className={`flex w-full justify-between rounded-lg px-3 py-2 text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 cursor-pointer ${getColorClasses(section.color)}`}
+              suppressHydrationWarning={true}
             >
+              {/* Left Side - Drag Handle */}
               <div className="flex items-center space-x-2">
+                <div 
+                  className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 transition-colors"
+                  title="Drag to reorder"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 6a2 2 0 11-4 0 2 2 0 014 0zM8 12a2 2 0 11-4 0 2 2 0 014 0zM8 18a2 2 0 11-4 0 2 2 0 014 0zM20 6a2 2 0 11-4 0 2 2 0 014 0zM20 12a2 2 0 11-4 0 2 2 0 014 0zM20 18a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                </div>
                 <span>{section.name}</span>
                 <span 
                   onClick={(e) => {
@@ -258,6 +322,7 @@ export default function UniversalForm({ data = {}, sectionOrder = [], onInputCha
                   disabled={isFirst}
                   className={`p-1 rounded hover:bg-gray-200 transition-colors ${isFirst ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-gray-700'}`}
                   title="Move Up"
+                  suppressHydrationWarning={true}
                 >
                   <ChevronUpIcon className="w-3 h-3" />
                 </button>
@@ -269,6 +334,7 @@ export default function UniversalForm({ data = {}, sectionOrder = [], onInputCha
                   disabled={isLast}
                   className={`p-1 rounded hover:bg-gray-200 transition-colors ${isLast ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-gray-700'}`}
                   title="Move Down"
+                  suppressHydrationWarning={true}
                 >
                   <ChevronDownIconSolid className="w-3 h-3" />
                 </button>

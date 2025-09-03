@@ -23,12 +23,12 @@ export default function SkillsForm({ section, onInputChange }) {
     onInputChange('skills', 'items', newItems);
   };
 
-  const colorOptions = [
-    { value: 'blue', label: 'Blue', color: 'bg-blue-500' },
-    { value: 'green', label: 'Green', color: 'bg-green-500' },
-    { value: 'purple', label: 'Purple', color: 'bg-purple-500' },
-    { value: 'orange', label: 'Orange', color: 'bg-orange-500' }
-  ];
+  // const colorOptions = [
+  //   { value: 'blue', label: 'Blue', color: 'bg-blue-500' },
+  //   { value: 'green', label: 'Green', color: 'bg-green-500' },
+  //   { value: 'purple', label: 'Purple', color: 'bg-purple-500' },
+  //   { value: 'orange', label: 'Orange', color: 'bg-orange-500' }
+  // ];
 
   return (
     <div className="space-y-4">
@@ -105,25 +105,7 @@ export default function SkillsForm({ section, onInputChange }) {
                 </div>
 
                 {/* Skill Color */}
-                <div>
-                  <label className="block text-xs text-gray-600 mb-1">Color</label>
-                  <div className="grid grid-cols-4 gap-1">
-                    {colorOptions.map((colorOption) => (
-                      <button
-                        key={colorOption.value}
-                        type="button"
-                        onClick={() => updateSkill(index, 'color', colorOption.value)}
-                        className={`w-full h-8 rounded border-2 transition-colors ${
-                          skill.color === colorOption.value
-                            ? 'border-gray-800'
-                            : 'border-gray-300 hover:border-gray-400'
-                        }`}
-                      >
-                        <div className={`w-full h-full rounded ${colorOption.color}`}></div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
+               
               </div>
             </div>
           ))}

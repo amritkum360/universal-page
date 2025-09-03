@@ -25,8 +25,12 @@ import ContactTemplate from './components/ContactSection/ContactTemplate';
 import SocialTemplate from './components/SocialSection/SocialTemplate';
 import FooterTemplate from './components/FooterSection/FooterTemplate';
 
-export default function UniversalTemplate({ data, sectionOrder = [] }) {
+export default function UniversalTemplate({ data, sectionOrder = null }) {
   const [isVisible, setIsVisible] = useState(false);
+
+  // Debug logging for section order
+  console.log('UniversalTemplate - Received sectionOrder:', sectionOrder);
+  console.log('UniversalTemplate - Data keys:', Object.keys(data || {}));
 
   // Get theme colors
   const theme = data.theme || {};
@@ -35,6 +39,9 @@ export default function UniversalTemplate({ data, sectionOrder = [] }) {
   const accentColor = theme.accentColor || '#F59E0B';
 
   useEffect(() => {
+    // Add smooth scrolling behavior
+    document.documentElement.style.scrollBehavior = 'smooth';
+    
     const toggleVisibility = () => {
       if (window.pageYOffset > 300) {
         setIsVisible(true);
@@ -44,7 +51,46 @@ export default function UniversalTemplate({ data, sectionOrder = [] }) {
     };
 
     window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
+    return () => {
+      window.removeEventListener('scroll', toggleVisibility);
+      // Clean up smooth scrolling
+      document.documentElement.style.scrollBehavior = 'auto';
+    };
+  }, []);
+
+  // Smooth scroll to section function
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
+  // Handle smooth scrolling for anchor links
+  useEffect(() => {
+    const handleAnchorClick = (e) => {
+      const href = e.target.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const targetId = href.substring(1);
+        scrollToSection(targetId);
+      }
+    };
+
+    // Add click listeners to all anchor links
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    anchorLinks.forEach(link => {
+      link.addEventListener('click', handleAnchorClick);
+    });
+
+    return () => {
+      anchorLinks.forEach(link => {
+        link.removeEventListener('click', handleAnchorClick);
+      });
+    };
   }, []);
 
   const handleWhatsApp = () => {
@@ -193,11 +239,12 @@ export default function UniversalTemplate({ data, sectionOrder = [] }) {
 
   return (
     <div 
-      className="min-h-screen bg-white"
+      className="min-h-screen bg-white scroll-smooth"
       style={{
         '--primary-color': primaryColor,
         '--secondary-color': secondaryColor,
         '--accent-color': accentColor,
+        scrollBehavior: 'smooth'
       }}
     >
       {/* Sticky Social Media Bar */}
@@ -246,46 +293,52 @@ export default function UniversalTemplate({ data, sectionOrder = [] }) {
             )}
             {data.contact?.email && (
               <button
-                onClick={handleEmail}
+                onClick={() => {
+                  window.open(
+                    `https://mail.google.com/mail/?view=cm&fs=1&to=${data.contact.email}`,
+                    "_blank"
+                  );
+                }}
                 className="text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-2 animate-pulse"
-                style={{ backgroundColor: secondaryColor }}
+                style={{ backgroundColor: primaryColor }}
               >
                 <Mail className="w-5 h-5" />
                 <span className="font-bold">Email</span>
               </button>
-            )}
+              )}
+
           </div>
         </div>
       )}
 
       {/* Render all visible sections in order */}
-      {sectionOrder.length > 0 ? (
+      {sectionOrder && sectionOrder.length > 0 ? (
         sectionOrder.map(sectionKey => (
-          <React.Fragment key={sectionKey}>
+          <div key={sectionKey} id={sectionKey}>
             {renderSection(sectionKey)}
-          </React.Fragment>
+          </div>
         ))
       ) : (
-        // Fallback to default order if sectionOrder is empty
+        // Fallback to default order if sectionOrder is empty or null
         <>
-          {renderSection('header')}
-          {renderSection('hero')}
-          {renderSection('about')}
-          {renderSection('portfolio')}
-          {renderSection('services')}
-          {renderSection('testimonials')}
-          {renderSection('skills')}
-          {renderSection('achievements')}
-          {renderSection('gallery')}
-          {renderSection('stats')}
-          {renderSection('blog')}
-          {renderSection('downloadables')}
-          {renderSection('faq')}
-          {renderSection('pricing')}
-          {renderSection('cta')}
-          {renderSection('social')}
-          {renderSection('contact')}
-          {renderSection('footer')}
+          <div id="header">{renderSection('header')}</div>
+          <div id="hero">{renderSection('hero')}</div>
+          <div id="about">{renderSection('about')}</div>
+          <div id="portfolio">{renderSection('portfolio')}</div>
+          <div id="services">{renderSection('services')}</div>
+          <div id="testimonials">{renderSection('testimonials')}</div>
+          <div id="skills">{renderSection('skills')}</div>
+          <div id="achievements">{renderSection('achievements')}</div>
+          <div id="gallery">{renderSection('gallery')}</div>
+          <div id="stats">{renderSection('stats')}</div>
+          <div id="blog">{renderSection('blog')}</div>
+          <div id="downloadables">{renderSection('downloadables')}</div>
+          <div id="faq">{renderSection('faq')}</div>
+          <div id="pricing">{renderSection('pricing')}</div>
+          <div id="cta">{renderSection('cta')}</div>
+          <div id="social">{renderSection('social')}</div>
+          <div id="contact">{renderSection('contact')}</div>
+          <div id="footer">{renderSection('footer')}</div>
         </>
       )}
     </div>

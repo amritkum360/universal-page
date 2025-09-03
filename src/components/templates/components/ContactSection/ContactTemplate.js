@@ -46,7 +46,7 @@ ${phone ? `*Phone:* ${phone}` : ''}
   };
 
   return (
-    <section className="py-16 px-4 bg-gray-50" role="region" aria-label="Contact">
+    <section className="py-16 px-4 bg-gray-50" role="region" aria-label="Contact" id='contact'>
       <div className="container mx-auto">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -83,7 +83,7 @@ ${phone ? `*Phone:* ${phone}` : ''}
                 )}
                                  {section.whatsapp && (
                    <div className="flex items-center space-x-4">
-                     <div className="w-12 h-12 rounded-full flex items-center justify-center theme-secondary-bg">
+                     <div className="w-12 h-12 rounded-full flex items-center justify-center theme-primary-bg">
                        <MessageCircle className="w-6 h-6 text-white" />
                      </div>
                     <div>
@@ -94,7 +94,7 @@ ${phone ? `*Phone:* ${phone}` : ''}
                 )}
                                  {section.email && (
                    <div className="flex items-center space-x-4">
-                     <div className="w-12 h-12 rounded-full flex items-center justify-center theme-accent-bg">
+                     <div className="w-12 h-12 rounded-full flex items-center justify-center theme-primary-bg">
                        <Mail className="w-6 h-6 text-white" />
                      </div>
                     <div>

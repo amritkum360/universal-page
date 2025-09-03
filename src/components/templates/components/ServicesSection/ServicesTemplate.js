@@ -5,7 +5,7 @@ import React from 'react';
 
 export default function ServicesTemplate({ section }) {
   return (
-    <section className="py-16 px-4" style={{ background: `linear-gradient(135deg, var(--secondary-color, #8B5CF6) / 5%, var(--primary-color, #3B82F6) / 5%, var(--accent-color, #F59E0B) / 5%)` }} role="region" aria-label="Services">
+    <section className="py-16 px-4" style={{ background: `linear-gradient(135deg, var(--secondary-color, #8B5CF6) / 5%, var(--primary-color, #3B82F6) / 5%, var(--accent-color, #F59E0B) / 5%)` }} role="region" aria-label="Services" id='services'>
       <div className="container mx-auto">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
